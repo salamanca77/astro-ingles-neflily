@@ -1,14 +1,16 @@
 ---
 import { Icon } from "astro-icon";
+import {dataMenu} from "../data/dataMenu"
 ---
     <nav>
         <a href="./">
             <Icon name="vaadin:academy-cap" width="40"/>
         </a>
-        <a href="#como-aprender">Como aprender ?</a>
-        <a href="#porque-aprender-ingles">Porque aprender ingles ?</a>
-        <a href="#motivacion">Motivate !</a>
-        <a href="#cursos-de-ingles">Cursos de ingles</a>
+        {
+            dataMenu.map((data) => (
+                <a href={data.url}>{data.name}</a>
+            ))
+        }
     </nav>
 
 <style>

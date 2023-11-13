@@ -1,6 +1,6 @@
 ---
 import Header from '../components/Header.astro';
-import HeaderMovil from '../components/HeaderMovil.astro';
+import MovilMenu from '../components/MovilMenu.astro';
 interface Props {
 	title: string;
 }
@@ -23,7 +23,7 @@ const { title } = Astro.props;
 		<main>
 			<slot />
 		</main>
-		<HeaderMovil />
+		<MovilMenu />
 	</body>
 </html>
 

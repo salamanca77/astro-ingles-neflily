@@ -2,15 +2,16 @@
 import { Icon } from "astro-icon";
 import {dataMenu} from "../data/dataMenu"
 ---
-    <nav>
+    <nav id="listEnlace">
         <a href="./">
             <Icon name="vaadin:academy-cap" width="40"/>
         </a>
         {
             dataMenu.map((data) => (
-                <a href={data.url}>{data.name}</a>
+                <a  href={data.url}>{data.name}</a>
             ))
         }
+        <div id="marcadoMenu"></div>
     </nav>
 
 <style>
@@ -26,4 +27,74 @@ import {dataMenu} from "../data/dataMenu"
         display: block;
         text-decoration: none;
     }
+
+    #marcadoMenu{
+        position: absolute;
+        /* transform: translateX(var(--top)); */
+        transform: translateX(var(--left));
+        width: var(--width);
+        height: var(--height);
+        top:15px;
+        left: 0;
+        z-index: -10;
+        background-color:#F5F4F4;
+        border-radius: 5px;
+        transition: all 0.7s ease-in-out;
+    }
 </style>
+<script>
+    const $listEnlace = document.querySelectorAll('#listEnlace a')
+    const $marcadoMenu = document.querySelector('#marcadoMenu') as HTMLElement
+    
+    $listEnlace.forEach( elemento =>{
+        elemento.addEventListener('mouseenter', e =>{
+            const {width, height, top, left } = elemento.getBoundingClientRect()
+            
+           $marcadoMenu.style.setProperty('--width', `${width}px`) 
+           $marcadoMenu.style.setProperty('--height', `${height}px`) 
+           $marcadoMenu.style.setProperty('--top', `${top}px`) 
+           $marcadoMenu.style.setProperty('--left', `${left}px`) 
+
+           $marcadoMenu.style.opacity = "1"
+           $marcadoMenu.style.visibility = "visible"
+        })
+        
+        elemento.addEventListener('mouseleave', e =>{
+            $marcadoMenu.style.opacity = '0' 
+           $marcadoMenu.style.visibility = 'hidden'
+        })
+    })
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

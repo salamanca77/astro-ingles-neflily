@@ -1,73 +1,122 @@
 ---
 import { Icon } from "astro-icon";
-import {dataMenu} from "../data/dataMenu"
+import { dataMenu } from "../data/dataMenu";
 ---
-    <nav id="listEnlace">
-        <a href="./">
-            <Icon name="vaadin:academy-cap" width="40"/>
-        </a>
-        {
-            dataMenu.map((data) => (
-                <a  href={data.url}>{data.name}</a>
-            ))
-        }
-        <div id="marcadoMenu"></div>
-    </nav>
+
+<nav id="listEnlace">
+    <a href="./">
+        <Icon name="vaadin:academy-cap" width="40" />
+    </a>
+
+    <div>
+        <a class="selected" href="#como-aprender">Como aprender ?</a>
+        <a href="#porque-aprender-ingles">Porque aprender ingles ?</a>
+        <a href="#motivacion">Motivate !</a>
+        <a href="#cursos-de-ingles">Cursos de ingles</a>
+    </div>
+
+    <!-- <div id="marcadoMenu"></div> -->
+</nav>
 
 <style>
-    nav{
+    nav {
         display: flex;
-        justify-content:space-around;
+        justify-content: space-around;
         align-items: center;
         width: 100%;
         height: 100%;
     }
-    nav a{
+    nav a {
+        position: relative;
         color: black;
         display: block;
         text-decoration: none;
     }
 
-    #marcadoMenu{
+    nav div{
+        display: flex;
+        width: 70%;
+        justify-content: space-between;
+    } 
+
+    #marcadoMenu {
         position: absolute;
         /* transform: translateX(var(--top)); */
         transform: translateX(var(--left));
         width: var(--width);
         height: var(--height);
-        top:15px;
+        top: 15px;
         left: 0;
         z-index: -10;
-        background-color:#F5F4F4;
+        background-color: #f5f4f4;
         border-radius: 5px;
         transition: all 0.7s ease-in-out;
     }
+
+    nav div a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 100%;
+        background-color: blueviolet;
+        width: 100%;
+        height: 4px;
+        transition: opacity 0.7s ease-in-out;
+        opacity: 0;
+    }
+    nav div a.selected::after,
+    nav div a:hover::after {
+        opacity: 1;
+    }
 </style>
+
 <script>
-    const $listEnlace = document.querySelectorAll('#listEnlace a')
-    const $marcadoMenu = document.querySelector('#marcadoMenu') as HTMLElement
+
+    // const $listEnlace = document.querySelectorAll("#listEnlace div a");
+    // const $marcadoMenu = document.querySelector("#marcadoMenu") as HTMLElement;
+
+    // $listEnlace.forEach((elemento) => {
+    //     elemento.addEventListener("mouseenter", (e) => {
+    //         const { width, height, top, left } =
+    //             elemento.getBoundingClientRect();
+
+    //         $marcadoMenu.style.setProperty("--width", `${width}px`);
+    //         $marcadoMenu.style.setProperty("--height", `${height}px`);
+    //         $marcadoMenu.style.setProperty("--top", `${top}px`);
+    //         $marcadoMenu.style.setProperty("--left", `${left}px`);
+
+    //         $marcadoMenu.style.opacity = "1";
+    //         $marcadoMenu.style.visibility = "visible";
+    //     });
+
+    //     elemento.addEventListener("mouseleave", (e) => {
+    //         $marcadoMenu.style.opacity = "0";
+    //         $marcadoMenu.style.visibility = "hidden";
+    //     });
+    // });
+
+    const observador = new IntersectionObserver((entradas)=>{
+        entradas.forEach((entrada) =>{
+            const id =  entrada.target.getAttribute('id')
+            const menuEnlace = document.querySelector(`nav div a[href='#${id}']`)
+            if(entrada.isIntersecting){
+                document.querySelector('nav div a.selected')?.classList.remove('selected')
+                menuEnlace?.classList.add('selected')
+            }    
+        })
+    },{rootMargin: '-30% 0px -70% 0px'})
+
+    const enlaces = document.querySelectorAll('nav div a[href^="#"]')
     
-    $listEnlace.forEach( elemento =>{
-        elemento.addEventListener('mouseenter', e =>{
-            const {width, height, top, left } = elemento.getBoundingClientRect()
-            
-           $marcadoMenu.style.setProperty('--width', `${width}px`) 
-           $marcadoMenu.style.setProperty('--height', `${height}px`) 
-           $marcadoMenu.style.setProperty('--top', `${top}px`) 
-           $marcadoMenu.style.setProperty('--left', `${left}px`) 
+    enlaces.forEach((enlace) => {
+        const hash= enlace.getAttribute('href')
+        const target  = document.querySelector(`${hash}`)
+        if(target){
+            observador.observe(target)
+        }
+    })    
 
-           $marcadoMenu.style.opacity = "1"
-           $marcadoMenu.style.visibility = "visible"
-        })
-        
-        elemento.addEventListener('mouseleave', e =>{
-            $marcadoMenu.style.opacity = '0' 
-           $marcadoMenu.style.visibility = 'hidden'
-        })
-    })
 </script>
-
-
-
 
 
 
